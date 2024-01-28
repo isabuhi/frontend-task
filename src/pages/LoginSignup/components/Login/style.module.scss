@@ -1,0 +1,11 @@
+.wrapper {
+  min-width: 438px;
+  width: 100%;
+}
+
+.anchorStyle {
+  color: #2F89FC;
+  &:hover {
+    cursor: pointer;
+  }
+}
