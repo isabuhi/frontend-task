@@ -1,9 +1,10 @@
-
-
+import CustomTabs from "./components/CustomTabs";
 
 
 export default ()=>{
     return(
-        <div>profile</div>
+        <div className={"h-full w-full"}>
+            <div><CustomTabs/></div>
+        </div>
     )
 }

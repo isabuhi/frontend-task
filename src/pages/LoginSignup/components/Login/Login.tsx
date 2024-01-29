@@ -3,11 +3,14 @@ import classes from './style.module.scss'
 import Colors from '../../../../constants/colors';
 import {useState} from 'react';
 import AuthService from '../../../../services/auth.service';
-import {Navigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
+import {jwtDecode} from "jwt-decode";
+
 
 
 
 export default (props: any)=>{
+    const navigate = useNavigate()
     const [user, setUser] =
         useState<{emailOrUsername: string | null, password: string | null}>({emailOrUsername: null, password: null})
 
@@ -26,7 +29,9 @@ export default (props: any)=>{
             mutate(user, {
                 onSuccess: (data)=>{
                     localStorage.setItem('Token', data.data)
-                    document.location.pathname = '/home'
+                    const decodedData: any = jwtDecode(data.data)
+                    localStorage.setItem('Username', decodedData.username)
+                    navigate('/')
                 }
             })
         }

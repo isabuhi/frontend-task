@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import GoogleMapReact from 'google-map-react';
 import Pointer  from '../../assets/images/Subtract.svg'
-import DashboardServive from '../../services/dashboard.servive';
-import {Button, Input} from '@material-tailwind/react';
 import Navbar from './components/Navbar';
+import LocationDetailsTable from "./components/DetailsTable";
+import classes from './style.module.scss'
 
 const defaultProps = {
     center: {
@@ -14,31 +14,51 @@ const defaultProps = {
 };
 
 export default ()=>{
-    const [mapState, setMapState] = useState(defaultProps)
-    const [ip, setIp] = useState<string | null>(null)
-    const {data, isSuccess, refetch} = DashboardServive().useGetIPLocation(ip)
+    const [mapState, setMapState] = useState<any>(null)
 
+    let lat = mapState?.location?.lat
+    let lng = mapState?.location?.lng
+    if(lat && lng){
+        lat = parseFloat(lat)
+        lng = parseFloat(lng)
+    }
 
-    useEffect(()=>{
-        if(isSuccess){
-            setMapState({...mapState, center: {lat: data.lat, lng: data.lng}})
-        }
-    },[data])
+    const labelMap: any = {
+        ip: "IP ünvan",
 
+        country: "Ölkə",
+
+        region: "Bölgə",
+
+        city: "Şəhər",
+
+        lat: "Paralel",
+
+        lng: "Meridian",
+
+        timezone: "Zaman qurşağı"
+    }
+    let parseData
+    if(mapState)
+     parseData= {ip: mapState.ip, ...mapState.location}
 
     return (
-        <>
-            <Navbar/>
-
+        <div className={"h-full w-full"}>
+            <Navbar setMapState={setMapState} mapState={mapState} />
+            <div className={classes.listContainer}>
+                <LocationDetailsTable listData={parseData} listMap={labelMap}/>
+            </div>
             <GoogleMapReact
                 bootstrapURLKeys={{ key: "AIzaSyCDoX3NstO1ty91AbiWleydFSXkxP3F3MA" }}
-                defaultCenter={defaultProps.center}
                 defaultZoom={defaultProps.zoom}
+                defaultCenter={defaultProps.center}
+                center={mapState? {lat, lng} : undefined}
+                yesIWantToUseGoogleMapApiInternals
             >
                 <div>
                     <img width='30px' src={Pointer}/>
                 </div>
             </GoogleMapReact>
-        </>
+        </div>
     )
 }

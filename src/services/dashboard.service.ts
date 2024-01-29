@@ -8,7 +8,7 @@ export default () => {
         return res.data
     }
 
-    const useGetIPLocation = (ip: string | null)=>useQuery({
+    const useGetIPLocation = (ip: string | undefined)=>useQuery({
         queryKey: ['LocationData'],
         queryFn: ()=>getIPLocation(ip),
         enabled: false
