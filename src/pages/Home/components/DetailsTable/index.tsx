@@ -3,14 +3,20 @@ import {Card, Typography, ListItem, ListItemPrefix, List, Avatar} from "@materia
 interface Props {
     listData?: any
     listMap?: any
+    header?: string
 }
 
 
 
-export default ({listData, listMap}: Props)=>{
+export default ({listData, listMap, header}: Props)=>{
     return (
-        listData? <Card className="w-96 bg-opacity-80 backdrop-blur-lg backdrop-saturate-200 h-full">
+        listData? <Card className="w-96 bg-opacity-80 backdrop-blur-lg backdrop-saturate-200 h-full shadow-2xl">
             <List>
+                {
+                    header && <Typography variant={"h4"}>
+                        Ümumi məlumatlar
+                    </Typography>
+                }
                 {Object.entries(listData).map(([key, value], index)=>{
                     return (
                         <ListItem key={index}>

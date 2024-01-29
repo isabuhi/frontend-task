@@ -4,7 +4,7 @@ import {
     TabsBody,
     Tab,
     TabPanel,
-    Card, CardBody
+    Card, CardBody, Typography
 } from "@material-tailwind/react";
 import ProfileService from "../../../../services/profile.service";
 import {useEffect, useState} from "react";
@@ -21,6 +21,7 @@ export default ()=>{
     const data = [
         {
             label: "Şəxsi məlumatlar",
+            value: "profile",
             refetch: ()=>{
                 refetchProfile().then((data)=>{
                     setCurrentData(data.data.data)
@@ -29,6 +30,7 @@ export default ()=>{
         },
         {
             label: "Təhsil məlumatları",
+            value: "education",
             refetch: ()=>{
                 refetchEducation().then((data)=>{
                     setCurrentData(data.data.data)
@@ -57,10 +59,12 @@ export default ()=>{
     }
     
     return (
-        <Tabs id="custom-animation" value="html">
+        <Tabs id="custom-animation" value="profile"
+            className={"p-5"}
+        >
             <TabsHeader className={"w-2/6"}>
-                {data.map(({ label,refetch }, index) => (
-                    <Tab onClick={()=>{refetch()}}  key={index} value={index}>
+                {data.map(({ label,refetch, value }, index) => (
+                    <Tab className={"border-b-8"} onClick={()=>{refetch()}}  key={value} value={value}>
                         {label}
                     </Tab>
                 ))}
@@ -71,8 +75,13 @@ export default ()=>{
                     mount: { y: 0 },
                     unmount: { y: 250 },
                 }}
+
             >
-                <DetailsTable listData={currentData} listMap={labelMap}/>
+                <Card className={"w-full p-4"}>
+                    <CardBody className={"shadow-2xl w-6/12"}>
+                        <DetailsTable listData={currentData} listMap={labelMap} header={"Ümumi məlumatlar"}/>
+                    </CardBody>
+                </Card>
             </TabsBody>
         </Tabs>
     );
