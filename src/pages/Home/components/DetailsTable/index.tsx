@@ -10,10 +10,10 @@ interface Props {
 
 export default ({listData, listMap, header}: Props)=>{
     return (
-        listData? <Card className="w-96 bg-opacity-80 backdrop-blur-lg backdrop-saturate-200 h-full shadow-2xl">
+        listData? <Card className="w-96 bg-opacity-80 backdrop-blur-lg backdrop-saturate-200 shadow-2xl">
             <List>
                 {
-                    header && <Typography variant={"h4"}>
+                    header && <Typography variant={"h6"}>
                         Ümumi məlumatlar
                     </Typography>
                 }
@@ -21,10 +21,10 @@ export default ({listData, listMap, header}: Props)=>{
                     return (
                         <ListItem key={index}>
                             <div>
-                                <Typography variant="h6" color="blue-gray">
+                                <Typography className={"font-bold text-xs"} color="blue-gray">
                                     {listMap[key]}
                                 </Typography>
-                                <Typography variant="small" color="gray" className="font-normal">
+                                <Typography color="gray" className="font-normal text-xs">
                                     {value}
                                 </Typography>
                             </div>

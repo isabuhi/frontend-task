@@ -1,4 +1,4 @@
-import {Avatar, Button, Input, Navbar, Typography} from '@material-tailwind/react';
+import {Button, Input, Navbar, Menu, MenuHandler, MenuItem, MenuList, Typography} from '@material-tailwind/react';
 import search from '../../../../assets/images/search.svg'
 import xIcon from '../../../../assets/images/xIcon.svg'
 import classes from './style.module.scss'
@@ -18,7 +18,8 @@ export default ({mapState, setMapState}:Props)=>{
     const navigate = useNavigate()
     const [ip, seIp] = useState<string | undefined>("")
 
-    const{data, refetch, isSuccess}= DashboardService().useGetIPLocation(ip)
+    const{data, refetch, isSuccess,remove}= DashboardService().useGetIPLocation(ip)
+    const {mutate} = AuthService().useLogout()
 
     useEffect(() => {
         if(isSuccess){
@@ -28,11 +29,37 @@ export default ({mapState, setMapState}:Props)=>{
     return (
         <Navbar
             className="absolute top-0 left-0 right-0 z-10 block w-full max-w-full px-4 py-2 text-white bg-white border rounded-none shadow-md h-max border-white/80 bg-opacity-80 backdrop-blur-lg backdrop-saturate-200 lg:px-8 lg:py-4">
-            <div onClick={()=>{navigate('/profile')}} className={'float-end cursor-pointer'}>
-                <AvatarWithText/>
-            </div>
-
-            <div className="flex items-center justify-center text-blue-gray-900">
+            <Menu placement="bottom-end">
+                <MenuHandler>
+                    <div className={'right-4 cursor-pointer'}>
+                        <AvatarWithText/>
+                    </div>
+                </MenuHandler>
+                <MenuList>
+                    <MenuItem
+                        className={"text-center"}
+                        onClick={() => {
+                            navigate('/profile')
+                        }}
+                    >
+                        Profile
+                    </MenuItem>
+                    <MenuItem
+                        className={"text-center"}
+                        onClick={()=>{
+                            mutate(undefined, {
+                                onSuccess:()=>{
+                                    navigate("/login")
+                                }
+                            })
+                        }}
+                    >
+                        Log out
+                    </MenuItem>
+                </MenuList>
+            </Menu>
+            <div className="flex flex-col items-center justify-center text-blue-gray-900">
+                <Typography variant={"h6"} className={"pb-4"}>Header of lorem ipsum derof lorem ipsum</Typography>
                 <div className="relative flex w-full max-w-[24rem]">
                     <Input
                         value={ip}
@@ -54,6 +81,7 @@ export default ({mapState, setMapState}:Props)=>{
                             if(mapState) {
                                 setMapState(null)
                                 seIp('')
+                                remove()
                             }
                             else {
                                 if(ip)

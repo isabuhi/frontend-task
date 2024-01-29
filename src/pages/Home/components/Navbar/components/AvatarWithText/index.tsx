@@ -3,7 +3,7 @@ import { Avatar, Typography } from "@material-tailwind/react";
 export function AvatarWithText() {
     return (
         <div className="flex flex-col gap-6">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 justify-end">
                 <div>
                     <Typography color={'black'} variant="h6">{localStorage.getItem('Username') || ""}</Typography>
                 </div>

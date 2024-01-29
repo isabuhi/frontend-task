@@ -45,19 +45,16 @@ export default ()=>{
     return (
         <div className={"h-full w-full"}>
             <Navbar setMapState={setMapState} mapState={mapState} />
-            <div className={classes.listContainer}>
+            {parseData && <div className={`${classes.listContainer} h-2/3`}>
                 <LocationDetailsTable listData={parseData} listMap={labelMap}/>
-            </div>
+            </div>}
             <GoogleMapReact
                 bootstrapURLKeys={{ key: "AIzaSyCDoX3NstO1ty91AbiWleydFSXkxP3F3MA" }}
                 defaultZoom={defaultProps.zoom}
                 defaultCenter={defaultProps.center}
                 center={mapState? {lat, lng} : undefined}
-                yesIWantToUseGoogleMapApiInternals
             >
-                <div>
-                    <img width='30px' src={Pointer}/>
-                </div>
+                <img width='30px' src={Pointer}/>
             </GoogleMapReact>
         </div>
     )

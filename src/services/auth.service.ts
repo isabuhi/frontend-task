@@ -14,7 +14,7 @@ export default () => {
     }
 
     const logout = () => {
-        return HTTP.client().post('logout')
+        return HTTP.client().post('v1/users/logout')
     }
 
     const useLogin = ()=>useMutation({
@@ -25,7 +25,7 @@ export default () => {
         mutationFn: signup,
     })
 
-    const setLogout = useMutation({
+    const useLogout = ()=>useMutation({
         mutationFn: logout,
     })
 
@@ -33,5 +33,6 @@ export default () => {
     return {
         useLogin,
         useSignup,
+        useLogout
     }
 }
